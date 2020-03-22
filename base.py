@@ -10,6 +10,7 @@ print(name)
 isType = type(salary) == float
 print(isType)
 print(2**3)
+print(78/10)
 print(78//10)
 # str int float bool 4种数据类型
 # print() type()  input()函数
