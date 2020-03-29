@@ -4,9 +4,9 @@ mo = 1234.568
 str = "{} {} you {:0,.2f}"
 strNew = str.format("i", "love", mo)
 print(strNew)
-# format(1234.567,0.2f)  保留2位小数
+# format(1234.567,'0.2f')  保留2位小数
 # format(1234.567,',') 千分位分隔符
-# format(1234.568,0,.3f)  千分位 保留2位小数
+# format(1234.568,'0,.3f')  千分位 保留2位小数
 name = "张三"
 age = 25
 weight = 83.5
