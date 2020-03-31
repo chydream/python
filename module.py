@@ -17,6 +17,7 @@ help(moduleDemo.func)
 
 #包：可以用来组织模块 目录必须包含文件 __init__.py,解决模块重名问题    PEP8
 # imort顺序 1.标准库 2.第三方库包 3.自定义的包   包导入是包下面的__init__.py
+# 包是一个文件夹，可以包含多个文件/模块，模块是一个文件。
 import pay
 # from pay.alipay import tools
 # from pay.alipay.tools import pay

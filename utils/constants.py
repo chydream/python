@@ -1,0 +1,5 @@
+File_TYPE_UNKNOWN = 10
+File_TYPE_IMG = 10
+File_TYPE_DOC = 11
+File_TYPE_EXCEL = 12
+File_TYPE_PPT = 13
