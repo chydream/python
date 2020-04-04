@@ -34,7 +34,7 @@ class Tiger(Cat):
 
 
 if __name__ == '__main__':
-    # cat_black = Cat('小黑', 10)
+    cat_black = Cat('小黑', 10)
     # cat_black.eat()
     # cat_black.show_info()
     # print(cat_black.name)
