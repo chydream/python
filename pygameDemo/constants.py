@@ -4,6 +4,7 @@ import pygame
 BASE_DIR = os.path.dirname(os.path.abspath(__file__)) #根目录
 ASSETS_DIR = os.path.join(BASE_DIR, 'assets') #静态目录
 BG_IMG = os.path.join(ASSETS_DIR, 'images/background.png')
+BG_IMG_OVER = os.path.join(ASSETS_DIR, 'images/game_over.png')
 IMG_GAME_TITLE = os.path.join(ASSETS_DIR, 'images/game_title.png')
 IMG_GAME_START = os.path.join(ASSETS_DIR, 'images/game_start.png')
 BG_MUSIC = os.path.join(ASSETS_DIR, 'sounds/game_bg_music.mp3')
