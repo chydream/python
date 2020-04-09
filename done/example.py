@@ -6,6 +6,7 @@ class Student(object):
         self.__select_course = select_course
 
     """课程详情"""
+    @property
     def course_detail(self):
         return self.__select_course
 

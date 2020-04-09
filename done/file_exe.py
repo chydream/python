@@ -1,4 +1,4 @@
-from done.example import Student, Teacher, Course
+from example import Student, Teacher, Course
 
 # 提示
 def introduction(str):
@@ -71,4 +71,4 @@ if __name__ == '__main__':
     for y in range(0, len(cts)):
         students[y].add_course(cts[y])
     for z in students:
-        print("Name：{0}, Selected：{1}".format(z.name, z.course_detail()))
+        print("Name：{0}, Selected：{1}".format(z.name, z.course_detail))
