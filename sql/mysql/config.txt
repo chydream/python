@@ -1,0 +1,1 @@
+my.ini  mysql配置  client mysql 客户端配置信息   mysqld 数据库配置信息

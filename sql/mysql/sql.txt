@@ -1,0 +1,254 @@
+mysql -uroot -p
+mysql -uroot -p -P9002 -h127.0.0.1
+netstat -ano 查看端口占用情况
+tasklist|findstr "2720" 查看pid占用进程
+
+mysqld --defaults-file="C:\ProgramData\MySQL\MySQL Server 8.0\my.ini" --init-file="G:\python\python\sql\mysql\temp.txt" --console
+
+net start mysql80
+net stop mysql80
+PROMPT \u@\h \d \D>
+SLECT VERSION();
+SELECT NOW();
+SELECT USER();
+SHOW DATABASES;
+SHOW WARNINGS;
+SELECT DATABASE();
+CREATE DATABASE IF NOT EXISTS t1 CHARACTER SET utf8;
+ALTER DATABASE t1 CHARACTER SET= utf8;
+DROP DATABASE t1;
+SHOW CREATE DATABASE t1;
+SHOW CREATE TABLE chenyong;
+SHOW TABLES;
+SHOW COLUMNS FROM chenyong;
+CREATE TABLE tb3(
+	id SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	username VARCHAR(30) NOT NULL
+);
+CREATE TABLE tb4(
+	id SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	username VARCHAR(20) NOT NULL UNIQUE KEY,
+	age TINYINT UNSIGNED
+);
+SELECT * FROM tb4;
+INSERT INTO tb4 (username,age) VALUES ('Tom',20);
+CREATE TABLE tb5(
+	id SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	username VARCHAR(20) NOT NULL UNIQUE KEY,
+	sex ENUM('1','2','3') DEFAULT '3'
+);
+
+整型      TINYINT 1 SMALLINT 2 MEDIUMINT 3 INT 4 BIGINT 8
+浮点型    FLOAT(8，2)  DOUBLE(8，2)
+日期时间  YEAR TIME DATE DATETIME TIMESTAMP
+字符串    CHAR(M)  VARCHAR(M) TINYTEXT TEXT MEDIUMTEXT LONGTEXT ENUM('1','2',..)   SET('1','2',...)
+
+SHOW INDEXES FROM tb5\G;
+default-storage-engine=INNODB;
+CREATE TABLE tb6(
+	id SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	sname VARCHAR(20),
+	FOREIGN KEY (sname) REFERENCES tb5 (id) ON DELETE CASCADE
+);
+)
+
+CASCADE
+SET NULL
+RESTRICT
+NO ACTION
+
+DELETE FROM tb4 WHERE id=3;
+
+ALTER TABLE user1 ADD age TINYINT NOT NULL UNSIGNED DEFAULT 10;
+ALTER TABLE user1 ADD age TINYINT NOT NULL UNSIGNED DEFAULT 10 FIRST || AFTER username;
+ALTER TABLE user1 DROP agge;
+ALTER TABLE user1 DROP agge,DROP aggge,ADD agggge VARCHAR(20) NOT NULL;
+ALTER TABLE user2 ADD CONSTRAINT PK_user2_id PRIMARY KEY (id);
+ALTER TABLE user2 ADD UNIQUE (username)
+ALTER TABLE user2 ADD FOREIGN KEY (pid) REFERENCES province (id);
+ALTER TABLE user2 ADD ALTER age SET DEFAULT 15;
+ALTER TABLE user2 ADD ALTER age DROP DEFAULT;
+ALTER TABLE user2 DROP PRIMARY KEY;
+ALTER TABLE user2 DROP KEY|INDEX username;
+ALTER TABLE user2 DROP FOREIGN KEY user2_ibfk_1;
+ALTER TABLE user2 MODIFY id SMALLINT UNSIGNED NOT NULL FIRST;
+ALTER TABLE user2 CHANGE pid p_id TINYINT UNSIGNED NOT NULL;
+ALTER TABLE user2 RENAME user3;
+RENAME TABLE user3 TO user2;
+
+
+
+CREATE TABLE users(
+	id SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	username VARCHAR(20) NOT NULL,
+	password VARCHAR(32) NOT NULL,
+	age TINYINT UNSIGNED NOT NULL DEFAULT 10,
+	sex BOOLEAN
+	);
+INSERT users VALUES (NULL|DEFAULT,'Tom','013',2*6+1,1);
+INSERT users VALUES (NULL|DEFAULT,'Tom','013',DEFAULT,1);
+INSERT users VALUES (NULL|DEFAULT,'Tom','013',DEFAULT,1),(NULL,'Rose',md5('123'),DEFAULT,0);
+
+INSERT users SET username='Ben',password='567';
+INSERT users (username) SELECT username FROM test WHERE age>=30;
+
+
+UPDATE users SET age=age+5;
+UPDATE users SET username='chen',passname='chen' WHERE id=6;
+UPDATE users SET age=age+10 WHERE id%2=0;
+UPDATE tdb_goods INNER JOIN tdb_goods_cates ON goods_cate=cate_name SET goods_cate=cate_id;
+
+DELETE FROM users WHERE id>5;
+
+SELECT id,username FROM users WHERE id>5 GROUP BY id ASC|DESC HAVING id>5 ORDER BY id ASC|DESC LIMIT 5;
+SELECT id as userId,username as uname FROM users;
+
+MAX MIN AVG SUM COUNT
+SELECT * FROM users ORDER BY id DESC LIMIT 3,2;
+SET NAMEs gbk
+
+INSERT tdb_goods_cates (cate_name) SELECT goods_cate FROM tdb_goods GROUP BY goods_cate;
+SELECT * FROM t1 WHERE col=(SELECT col FROM t2);
+
+SELECT AVG(goods_price) FROM tdb_goods;
+SELECT ROUND(AVG(goods_price),2) FROM tdb_goods;
+
+ANY SOME ALL   EXIST
+
+SELECT * FROM t1 WHERE col>= ANY(SELECT col FROM t2);
+SELECT * FROM t1 WHERE col<= ANY(SELECT col FROM t2);
+SELECT * FROM t1 WHERE col = ANY(SELECT col FROM t2);
+SELECT * FROM t1 WHERE col IN (SELECT col FROM t2);
+SELECT * FROM t1 WHERE col != ANY(SELECT col FROM t2);
+
+
+CREATE TABLE tdb_goods_brands(
+	brand_id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+	brand_name VARCHAR(40) NOT NULL
+)
+SELECT brand_name FROM tdb_goods GROUP BY brand_name;
+
+
+CREATE TABLE tdb_goods_types(
+	type_id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+	type_name VARCHAR(20) NOT NULL,
+	parent_id SMALLINT UNSIGNED NOT NULL DEFAULT 0
+);
+
+s=子表  p=父表
+SELECT s.type_id,s.type_name,p.type_name From tdb_goods_types AS s LEFT JOIN tdb_goods_types AS p ON s.parent_id=p.type_id;
+
+SELECT p.type_id,p.type_name,s.type_name From tdb_goods_types AS p LEFT JOIN tdb_goods_types AS s ON s.parent_id=p.type_id;
+
+SELECT p.type_id,p.type_name,COUNT(s.type_name) From tdb_goods_types AS p LEFT JOIN tdb_goods_types AS s ON s.parent_id=p.type_id GROUP BY p.type_name ORDER BY type_id ASC;
+
+DELETE t1 FROM tdb_goods AS t1 LEFT JOIN (SELECT goods_id,goods_name FROM tdb_goods GROUP BY goods_name HAVING COUNT(goods_name)>=2) AS t2 ON t1.goods_name=t2.goods_name WHERE t1.goods_id>t2.goods_id;
+
+
+字符函数：CONCAT() CONCAT_WS() FONMAT() LOWER() UPPER() LEFT() RIGHT() LENGTH() LTRIM()  RTRIM() TRIM() SUBSTRING()  NOT LIKE  REPLACE();
+SELECT CONCAT('imooc','MySQL');
+SELECT FORMAT(12580.65,0);
+SELECT TRIM(LEADING "?" FROM "??MYSQL???");
+SELECT TRIM(TRAILING "?" FROM "??MYSQL???");
+SELECT TRIM(BOTH "?" FROM "??MYSQL???");
+SELECT REPLACE('??MY??SQL???','?','');
+SELECT SUBSTRING('MYSQL',1,2);
+SELECT 'MYSQL' LIKE 'M%';
+SELECT * FROM test WHERE first_name LIKE '%1%%' ESCAPE '1';
+%  任意字符；
+_任意一个字符；
+
+数值运算符：CEIL() DIV FLOOR() MOD  POWER() ROUND() TRUNCATE();
+SELECT POWER(3,2);
+SELECT TRUNCATE(128.50,0);
+
+比较运算符函数：[NOT] BETWEEN ADN ;[NOT] IN() ;IS  [NOT] NULL
+SELECT 5 BETWEEN 1 AND 10;
+SELECT 5 IN(5,10,20,30);
+SELECT * FROM test WHERE first_name IS NULL;
+
+日期时间函数：NOW()  CURDATE() CURTIME() DATE_ADD() DATEDIFF() DATE_FORMAT();
+SELECT DATE_ADD('2014-3-12',INTERVAL 365 DAY);
+SELECT DATE_ADD('2014-3-12',INTERVAL -365 DAY);
+SELECT DATEDIFF('2013-3-12','2014-3-12');
+SELECT DATE_FORMAT('2014-1-1','%m/%d/%Y');
+
+信息函数：CONNECTION_ID()  DATABASE() LAST_INSERT_ID() USER() VERSION();
+DESC TABLE;
+
+聚合函数：AVG() COUNT() MAX() MIN() SUM();
+
+加密函数：MD5() PASSWORD();
+SET PASSWORD=PASSWORD('dimitar');
+
+自定义函数：
+CREATE FUNCTION yes() RETURNS VARCHAR(30)
+	RETURN DATE_FORMAT(NOW(),'%Y年%m月%d日 %H时:%i分:%s秒');
+show variables like 'log_bin_trust_function_creators';
+set global log_bin_trust_function_creators=1;
+DROP FUNCTION f2;
+CREATE FUNCTION f2(num1 SMALLINT UNSIGNED,num2 SMALLINT UNSIGNED)
+RETURNS FLOAT(8,2) UNSIGNED
+RETURN (num1+num2)/2
+
+DELIMITER //;
+
+CREATE FUNCTION adduser(username VARCHAR(20))
+RETURNS INT UNSIGNED
+BEGIN
+INSERT test(username)  VALUES(username);
+RETURE 
+LAST_INSERT_ID();
+END
+//
+
+
+存储过程
+CREATE PROCEDURE sp1()
+SELECT VERSION();
+
+CALL sp1();
+
+DELIMITER //
+CREATE PROCEDURE removeUserById(IN uid INT UNSIGNED)
+BEGIN
+DELETE FROM users WHERE id=uid;
+END
+//
+DELIMITER ;
+
+DROP PROCEDURE removeUserById();
+CALL removeUserById(3);
+
+
+
+DELIMITER //
+CREATE PROCEDURE ru(IN p_id INT UNSIGNED,OUT p_username VARCHAR(20))
+BEGIN
+DELETE FROM users WHERE id=p_id;
+SELECT COUNT(id) FROM users INTO p_username;
+END
+//
+
+DELIMITER ;
+
+
+SELECT ROW_COUNT();  mysql_affect_rows;
+
+DELIMITER //
+CREATE PROCEDURE removes(IN p_age SMALLINT UNSIGNED,OUT deleteUser SMALLINT UNSIGNED,OUT userCounts SMALLINT UNSIGNED)
+BEGIN
+DELETE FROM users WHERE age=p_age;
+SELECT ROW_COUNT() INTO deleteUser;
+SELECT COUNT(id) FROM users INTO userCounts;
+END
+//
+
+DELIMITER ;
+
+
+
+存储引擎：MyISAM InnoDB Memory CSV Archive;
+CREATE TABLE t1（） ENGINE=MyISAM;
+ALTER TABLE tl ENGINE=InnoDB;
+-default-storage-engine=engine
