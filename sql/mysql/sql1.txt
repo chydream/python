@@ -127,11 +127,26 @@ ignore关键字会让insert只插入数据库不存在的记录
 insert [ignore] into 表名 ....；
 INSERT IGNORE INTO t_dept(deptno,dname,loc)
 VALUES (40,"技术部","北京")
+
 2.update
 update [ignore] 表名 set 字段1 = 值1, 字段2 = 值2 where 条件 order by limit
 update 表连接
 update 表1 join 表2 on 条件 set 字段1 = 值1, 字段2 = 值2
 update 表1,表2 set 字段1 = 值1, 字段2 = 值2 where 条件
-
+update 表1 [left|right] join 表2 on 条件 set 字段1 = 值1, 字段2 = 值2
 
 3.delete
+delete [ignore] from 表名 where 条件 order by limit
+delete 表 from 表1 join 表2 on 条件
+where 条件
+order by
+limit
+
+delete 表 from 表1 [left|right] join 表2 on 条件
+where 条件
+order by
+limit
+
+delete在事务机制下删除记录之前，先要把删除的记录保存到日志文件里
+快速删除数据表全部记录
+TRUNCATE TABLE 表名；
