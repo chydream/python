@@ -11,6 +11,7 @@ DDL 逻辑库 数据表 视图 索引  数据定义语言
 关联性：每列都与主键有直接关系，不存在传递依赖
 
 二、字段约束：主键约束 非空约束 唯一约束 外键约束
+
 三、数据库的索引机制：数据排序
 CREATE TABLE 表名称(
     INDEX [索引名称](字段)
@@ -19,6 +20,7 @@ CREATE INDEX 索引名称 ON 表名(字段);
 ALTER TABLE 表名称 ADD INDEX [索引名](字段)
 SHOW INDEX FROM 表名;
 DROP INDEX 索引名称 ON 表名;
+
 四、数据表的基本查询
 SELECT empno,sal*12 AS "income" FROM t_emp;
 1.查询语句的字句执行顺序
@@ -33,3 +35,103 @@ SELECT empno,ename,sal,hiredate FROM t_emp ORDER BY sal DESC, hiredate ASC;
 FROM > SELECT > ORDER BY > LIMIT
 3.去除结果集中重复数字 只能查询一列数据
 SELECT DISTINCT 字段 FROM *;
+4.条件查询
+select * from * where [and|or]
+比较运算符
+in 包含 deptno in (10,20,30)
+comm IS NULL
+comm IS NOT NULL
+sal BETWEEN 2000 AND 3000
+ename LIKE "A%"
+ename REGEXP "[a-zA-Z]"
+NOT deptno = 20
+age>18 XOR sex = '男'   异或关系，结果一样是false 结果不一样是true
+where字句执行顺序从左到右，把索引条件或者筛选掉记录最多的条件写在最左侧
+from > where > select > order by > limit
+
+五、聚合函数：AVG() COUNT() MAX() MIN() SUM();
+SELECT AVG(sal + IFNULL(comm, 0)) FROM t_emp;
+SELECT MAX(LENGTH(ename)) FROM t_emp;
+COUNT(*)用于获得包含空值的记录数，COUNT(列名)用于获得包含非空值的记录数。
+
+六、分组查询
+1.查询语句中如果含有group by子句，那么select子句中的内容就必须要遵守规定：select子句中可以包括聚合函数，或者group
+by 子句的分组列，其余内容均不可以出现在select子句中
+group by
+select deptno,round(avg(sal)) from t_emp group by deptno;
+对分组结果集再次做汇总计算
+
+select deptno,count(*),avg(sal),max(sal),min(sal)
+from t_emp group by deptno with rollup
+
+from > where > group by > select > order by > limit
+
+2.having 子句 有聚合函数的时候用
+SELECT deptno FROM t_emp GROUP BY deptno HAVING AVG(sal) >= 2000
+select deptno,count(*) from t_emp group by 1;
+select deptno, count(*) from t_emp group by 1 having deptno in (10,20) 不推荐
+
+七、从多张表中提取数据
+从多张表中提取数据，必须指定关联的条件。如果不定义关联条件就会出现无条件连接，两张表的数据就会交叉连接，产生笛卡尔积
+内连接的数据表不一定必须有同名字段，只要字段之间符合逻辑关系就可以
+SELECT e.empno,e.ename,d.dname
+FROM t_emp e JOIN t_dept d
+ON e.deptno = d.deptno
+1.内连接
+select * from 表1
+[inner] join 表2 on 条件
+[inner] join 表3 on 条件
+
+select * from 表1
+[inner] join 表2 where 条件
+[inner] join 表3 where 条件
+
+select * from 表1,
+,表2 where 条件
+,表3 where 条件
+
+八、外连接 left join right join
+外连接与内连接的区别在于，除了符合条件的记录之外，结果集中还会保留不符合条件的记录
+左外连接就是保留左表所有的记录，与右表做连接。如果右表有符合条件的记录就与左表连接。如果右表没有符合条件的记录
+,就用null与左表连接。右外连接也是如此。
+select e.empno,e.ename,d.dname from t_emp e left join t_dept d on e.deptno = d.deptno;
+外连接的on和where效果不一样
+union关键字可以将多个查询语句的结果集进行合并
+(SELECT d.dname,COUNT(e.deptno)
+FROM t_dept d LEFT JOIN t_emp e
+ON d.deptno = e.deptno
+GROUP BY d.deptno)
+UNION
+(SELECT d.dname,COUNT(*)
+FROM t_dept d RIGHT JOIN t_emp e
+ON d.deptno = e.deptno
+GROUP BY d.deptno)
+
+九、子查询 select from where 只推荐from子句子查询
+1.单行子查询 select from where
+2.多行子查询 where from
+where子句中可以使用in all any exists关键字来处理多行表达式结果集的条件判断
+select ename from t_emp
+where sal > all
+(select sal from t_emp where ename in ("FORD","MARTIN"));
+
+exists关键字是把原来在子查询之外的条件判断，写到了子查询的里面
+select * from 表名 where [not] exists (子查询)；
+
+十、数据库操作
+1.insert
+insert into 表名 (字段1,字段2...) values(值1,值1,值1),(值1,值1,值1)
+insert 方言语法
+insert into 表名 set 字段1 = 值1, 字段2 = 值2
+ignore关键字会让insert只插入数据库不存在的记录
+insert [ignore] into 表名 ....；
+INSERT IGNORE INTO t_dept(deptno,dname,loc)
+VALUES (40,"技术部","北京")
+2.update
+update [ignore] 表名 set 字段1 = 值1, 字段2 = 值2 where 条件 order by limit
+update 表连接
+update 表1 join 表2 on 条件 set 字段1 = 值1, 字段2 = 值2
+update 表1,表2 set 字段1 = 值1, 字段2 = 值2 where 条件
+
+
+3.delete
