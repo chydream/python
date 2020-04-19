@@ -1,0 +1,30 @@
+一、事务机制 transaction
+事务是一个或者多个sql语句组成的整体，要么全部执行成功，要么全都执行失败
+RDBMS = SQL语句 + 事务ACID 原子性 一致性 隔离性 持久性
+START TRANSACTION;
+SQL
+[COMMIT|ROLLBACK];
+
+2.事务的隔离级别
+read uncommitted
+read committed
+repeatable read
+serializable
+
+SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+
+3.数据的导入与导出
+数据导出：导出的纯粹是业务数据
+数据备份，备份的是数据文件、日志文件、索引文件
+全量备份>增量备份1>增量备份2
+mysqldump -uroot -p [no-data] 逻辑库 > 路径    导出
+user demo
+source demo1.sql
+
+4.AES数据加密
+AES_ENCRYPT(原始数据，秘钥字符串)
+select aes_encrypt("你好世界","abc123456");
+select hex(aes_encrypt("你好世界","abc123456"));
+
+select aes_decrypt("你好世界","abc123456");
+select aes_decrypt(unhex(hex(aes_encrypt("你好世界","abc123456"))),"abc123456")

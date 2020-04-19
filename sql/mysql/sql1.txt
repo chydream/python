@@ -128,6 +128,13 @@ insert [ignore] into 表名 ....；
 INSERT IGNORE INTO t_dept(deptno,dname,loc)
 VALUES (40,"技术部","北京")
 
+
+insert into t_dept(deptno,dname,loc) values((select max(deptno) from t_dept)+10,"a部门","北京")
+insert into t_dept
+(select max(deptno)+10,"a部门","北京" from t_dept
+union select max(deptno)+20,"b部门","上海" from t_dept
+);
+
 2.update
 update [ignore] 表名 set 字段1 = 值1, 字段2 = 值2 where 条件 order by limit
 update 表连接
@@ -150,3 +157,39 @@ limit
 delete在事务机制下删除记录之前，先要把删除的记录保存到日志文件里
 快速删除数据表全部记录
 TRUNCATE TABLE 表名；
+
+十一 函数
+1. 数字函数
+ABS ROUND FLOOR CEIL POWER LOG IN SQRT PI SIN COS TAN COT RADIANS DEGREES
+2.日期函数
+NOW  yyyy-MM-dd hh:mm:ss
+CURDATE yyyy-MM-dd
+CURTIME hh:mm:ss
+DATE_FORMAT(hiredate,"%Y")
+DATE_ADD() 日期偏移函数，而且时间单位 DATE_ADD(日期，interval 偏移量 时间单位)
+DATE_ADD(NOW(), INTERVAL -15 DAY|MINUTE)
+DATEDIFF(日期，日期)
+3. 字符函数
+LOWER UPPER LENGTH CONCAT INSTR INSERT REPLACE
+SUBSTR SUBSTRING LPAD RPAD TRIM
+
+SELECT LPAD(SUBSTRING("18850403496",8,4),11,"*")
+4条件函数
+ifnull(表达式，值)
+if(表达式,值1,值2)
+条件语句：
+CASE
+    WHEN 表达式 then 值1
+    WHEN 表达式 then 值2
+    ELSE 值n
+END
+SELECT
+ e.empno,e.ename,
+ CASE
+	WHEN d.dname = "SALES" THEN "p1"
+	WHEN d.dname = "ACCOUNTING" THEN "p2"
+	WHEN d.dname = "RESEARCH" THEN "p3"
+ END as plase
+FROM t_emp e JOIN t_dept d ON e.deptno = d.deptno
+
+

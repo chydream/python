@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="Encoding">
+  <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$/news/__init__.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/news/app.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/news/app1.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/news/config.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/news/config1.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/news/config2.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/news/config3.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/news/db/__init__.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/news/db/mysql_db.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/news/db/user_dao.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/news/service/__init__.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/news/service/user_service.py" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/sql/mysql/sql.txt" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/sql/mysql/sql1.txt" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/sql/mysql/命令.txt" charset="UTF-8" />
-    <file url="PROJECT" charset="GBK" />
+    <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>
