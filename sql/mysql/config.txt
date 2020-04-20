@@ -1,1 +1,1 @@
-my.ini  mysqlÅäÖÃ  client mysql ¿Í»§¶ËÅäÖÃĞÅÏ¢   mysqld Êı¾İ¿âÅäÖÃĞÅÏ¢
+my.ini  mysqlé…ç½®  client mysql å®¢æˆ·ç«¯é…ç½®ä¿¡æ¯   mysqld æ•°æ®åº“é…ç½®ä¿¡æ¯

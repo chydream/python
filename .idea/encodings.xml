@@ -13,8 +13,10 @@
     <file url="file://$PROJECT_DIR$/news/db/user_dao.py" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/news/service/__init__.py" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/news/service/user_service.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/sql/mysql/config.txt" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/sql/mysql/sql.txt" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/sql/mysql/sql1.txt" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/sql/mysql/sql2.txt" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

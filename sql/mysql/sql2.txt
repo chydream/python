@@ -1,11 +1,11 @@
-Ò»¡¢ÊÂÎñ»úÖÆ transaction
-ÊÂÎñÊÇÒ»¸ö»òÕß¶à¸ösqlÓï¾ä×é³ÉµÄÕûÌå£¬ÒªÃ´È«²¿Ö´ĞĞ³É¹¦£¬ÒªÃ´È«¶¼Ö´ĞĞÊ§°Ü
-RDBMS = SQLÓï¾ä + ÊÂÎñACID Ô­×ÓĞÔ Ò»ÖÂĞÔ ¸ôÀëĞÔ ³Ö¾ÃĞÔ
+ä¸€ã€äº‹åŠ¡æœºåˆ¶ transaction
+äº‹åŠ¡æ˜¯ä¸€ä¸ªæˆ–è€…å¤šä¸ªsqlè¯­å¥ç»„æˆçš„æ•´ä½“ï¼Œè¦ä¹ˆå…¨éƒ¨æ‰§è¡ŒæˆåŠŸï¼Œè¦ä¹ˆå…¨éƒ½æ‰§è¡Œå¤±è´¥
+RDBMS = SQLè¯­å¥ + äº‹åŠ¡ACID åŸå­æ€§ ä¸€è‡´æ€§ éš”ç¦»æ€§ æŒä¹…æ€§
 START TRANSACTION;
 SQL
 [COMMIT|ROLLBACK];
 
-2.ÊÂÎñµÄ¸ôÀë¼¶±ğ
+2.äº‹åŠ¡çš„éš”ç¦»çº§åˆ«
 read uncommitted
 read committed
 repeatable read
@@ -13,18 +13,18 @@ serializable
 
 SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
 
-3.Êı¾İµÄµ¼ÈëÓëµ¼³ö
-Êı¾İµ¼³ö£ºµ¼³öµÄ´¿´âÊÇÒµÎñÊı¾İ
-Êı¾İ±¸·İ£¬±¸·İµÄÊÇÊı¾İÎÄ¼ş¡¢ÈÕÖ¾ÎÄ¼ş¡¢Ë÷ÒıÎÄ¼ş
-È«Á¿±¸·İ>ÔöÁ¿±¸·İ1>ÔöÁ¿±¸·İ2
-mysqldump -uroot -p [no-data] Âß¼­¿â > Â·¾¶    µ¼³ö
+3.æ•°æ®çš„å¯¼å…¥ä¸å¯¼å‡º
+æ•°æ®å¯¼å‡ºï¼šå¯¼å‡ºçš„çº¯ç²¹æ˜¯ä¸šåŠ¡æ•°æ®
+æ•°æ®å¤‡ä»½ï¼Œå¤‡ä»½çš„æ˜¯æ•°æ®æ–‡ä»¶ã€æ—¥å¿—æ–‡ä»¶ã€ç´¢å¼•æ–‡ä»¶
+å…¨é‡å¤‡ä»½>å¢é‡å¤‡ä»½1>å¢é‡å¤‡ä»½2
+mysqldump -uroot -p [no-data] é€»è¾‘åº“ > è·¯å¾„    å¯¼å‡º
 user demo
 source demo1.sql
 
-4.AESÊı¾İ¼ÓÃÜ
-AES_ENCRYPT(Ô­Ê¼Êı¾İ£¬ÃØÔ¿×Ö·û´®)
-select aes_encrypt("ÄãºÃÊÀ½ç","abc123456");
-select hex(aes_encrypt("ÄãºÃÊÀ½ç","abc123456"));
+4.AESæ•°æ®åŠ å¯†
+AES_ENCRYPT(åŸå§‹æ•°æ®ï¼Œç§˜é’¥å­—ç¬¦ä¸²)
+select aes_encrypt("ä½ å¥½ä¸–ç•Œ","abc123456");
+select hex(aes_encrypt("ä½ å¥½ä¸–ç•Œ","abc123456"));
 
-select aes_decrypt("ÄãºÃÊÀ½ç","abc123456");
-select aes_decrypt(unhex(hex(aes_encrypt("ÄãºÃÊÀ½ç","abc123456"))),"abc123456")
+select aes_decrypt("ä½ å¥½ä¸–ç•Œ","abc123456");
+select aes_decrypt(unhex(hex(aes_encrypt("ä½ å¥½ä¸–ç•Œ","abc123456"))),"abc123456")
