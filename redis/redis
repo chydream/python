@@ -1,0 +1,125 @@
+pip install redis -i 加镜像网站
+https://pypi.org/project/redis/
+一、redis配置
+https://github.com/ServiceStack/redis-windows/tree/master/downloads
+select 0
+set city Dalian
+get city
+del city
+Redis持久化方案 RDB 定期保存     AOF 日志模式
+redis常用参数
+port 端口
+bind 允许的IP
+time 空闲时间
+loglevel debug verbose notice warning 日志界别
+logfile 日志文件地址
+syslog-enabled 系统日志
+
+databases 逻辑库的数量
+save rdb文件同步的频率
+rdbcompression 是否采用压缩
+dbfilename 镜像文件名称 默认 dump.rdb
+dir rdb 文件目录 默认 redis
+requirepass 访问密码
+
+maxclients 最大连接数
+maxmemory 占用内存的大小
+appendonly 开启AOF 备份
+appendfsync AOF同步的频率， no,everysec,always
+
+二、redis数据类型 字符串 哈希 列表 集合 有序集合  flushdb
+1.字符串 set email rr@qq.com  get del
+getrange email 0 3 0位置到3位置
+strlen 获取字符串长度
+setex city 5 beijing  psetex
+mset username scott sex male
+mget username sex
+append username 123456
+incr num   数字加1
+incrby num 25
+incrbyfloat num 3.5
+decr num 减1
+decrby num 10 减10
+
+2.哈希 KEY-VALUE
+hset 8000 ename Tom
+hset 8000 job SALESMAN
+hmset 8000 ename tom job salesman deptno 10
+hget 8000 ename
+hmget 8000 ename job
+hgetall 8000
+hkeys 8000 获取所有哈希表字段名称
+hlen 字段数量
+hexists 8000 job判断哈希表中是否存在某个字段
+hvals 8000 字段值
+hdel 8000 job deptno
+hincrby 8000 deptno 10
+hincrbyfloat 8000 sal 30.5
+
+3.列表
+rpush dname 技术部 后勤部 售后部
+lpush danme 秘书处
+lset dname 2 销售部
+lrange dname 0 -1
+llen dname
+lindex dname 0
+linsert dname before 秘书处 董事会
+linsert dname after 秘书处 董事会
+lpop dname 删除最左侧元素
+rpop dname 删除最右侧元素
+lrem dname 董事会
+
+4.集合 元素必须唯一不能重复列表可以重复 没有索引通过哈希值比较
+sadd empno 8000
+sadd empno 8001
+sadd empno 8002
+sadd empno 8000 8001 8002
+smembers empno
+scard empno 获得集合长度
+sismember empno 8000
+srem empno 8000 8001
+spop empno 随机删除并返回集合的某个元素
+srandmember empno 5 随机返回集合中的元素
+
+5.有序集合
+zadd keyword 0 "鹿晗"  0 "张朝阳" 0 "马云"
+zincrby keyword 1 "鹿晗"
+zincrby keyword 5 "马云"
+zincrby keyword 2 "张朝阳"
+zrevrange keyword 0 -1
+zrevrange keyword 0 0
+zrange keyword 0 -1
+del keyword
+zcard keyword 长度
+zcount keyword 5 10  5-10区间元素数量
+zscore keyword "马云"元素分数值
+zrangebyscore keyword 5 10分数值区间内的集合内容
+zrangebyscore keyword 5 (10
+zrangebyscore keyword 100000 +inf正无穷
+zrevrangebyscore keyword 10 5
+zrank keyword "马云"
+zrevrank keyword "马云"
+zrem keyword "马云" "张朝阳"
+zremrangebyrank keyword 0 2
+zremrangebyscore keyword -inf (5000
+
+三、redis key命令
+del keyword  删除
+exists keyword  是否存在
+expire keyword 5 设置过期时间
+pexpire keyword 5
+expireat keyword 时间戳 设置记录的过期时间
+pexpireat keyword 时间戳 设置记录的过期时间
+move keyword 1 把记录迁移到其他逻辑库
+rename keyword newkeyword 改名
+select 1 选择逻辑库
+persist keyword 移除过期时间
+type keyword 判断value数据类型
+
+四、redis的事务
+watch kill_num kill_user
+multi  开启一个事务
+incr kill_numm
+rpush kill_user 9502
+discard 取消事务
+exec
