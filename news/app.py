@@ -6,10 +6,12 @@ import sys
 import time
 from news.service.news_service import NewsService
 from news.service.role_service import RoleService
+from news.service.type_service import TypeService
 
 __user_service = UserService()
 __news_service = NewsService()
 __role_service = RoleService()
+__type_service = TypeService()
 while True:
     os.system("cls")
     print(Fore.LIGHTBLUE_EX, "\n\t=====================")
@@ -28,7 +30,36 @@ while True:
             while True:
                 os.system("cls")
                 if role == '新闻编辑':
-                    print("test")
+                    print(Fore.LIGHTGREEN_EX, "\n\t1.发表新闻")
+                    print(Fore.LIGHTGREEN_EX, "\n\t2.编辑管理")
+                    print(Fore.LIGHTRED_EX, "\n\tback.退出登录")
+                    print(Fore.LIGHTRED_EX, "\n\texit.退出系统")
+                    print(Style.RESET_ALL)
+                    opt = input("\n\t输入操作编号：")
+                    if opt == "back":
+                        break
+                    elif opt == "exit":
+                        sys.exit(0)
+                    elif opt == '1':
+                        os.system("cls")
+                        title = input("\n\t新闻标题：")
+                        userid = __user_service.search_userid(username)
+                        result = __type_service.search_list()
+                        for index in range(len(result)):
+                            one = result[index]
+                            print(Fore.LIGHTBLUE_EX, "\n\t%d.%s" % (index + 1, one[1]))
+                        opt = input("\n\t类型编号：")
+                        type_id = result[int(opt)-1][0]
+                        # todo 新闻正文内容
+                        content_id = 100
+                        is_top = input("\n\t置顶级别(0-5):")
+                        is_commite = input("\n\t是否提交(Y/N):")
+                        if is_commite == "Y" or is_commite == "y":
+                            __news_service.insert(title, userid, type_id, content_id, is_top)
+                            print("\n\t保存成功(3秒自动返回)")
+                            time.sleep(3)
+                    elif opt == '2':
+                        pass
                 elif role == "管理员":
                     print(Fore.LIGHTGREEN_EX, "\n\t1.新闻管理")
                     print(Fore.LIGHTGREEN_EX, "\n\t2.用户管理")
@@ -74,6 +105,8 @@ while True:
                                     elif int(opt) >=1 and int(opt) <= 10:
                                         news_id = result[int(opt)-1][0]
                                         __news_service.update_unreview_news(news_id)
+                                        result = __news_service.search_cache(news_id)
+
                             elif opt == "2":
                                 page = 1
                                 while True:
@@ -128,7 +161,7 @@ while True:
                                 for index in range(len(result)):
                                     one = result[index]
                                     print(Fore.LIGHTBLUE_EX, "\n\t%d.%s" % (index+1,one[1]))
-                                print(Style.RESET_ALL)
+                                # print(Style.RESET_ALL)
                                 opt = input("\n\t角色编号：")
                                 role_id = result[int(opt)-1][0]
                                 __user_service.insert(username, password, email, role_id)
