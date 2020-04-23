@@ -108,5 +108,63 @@ class NewsDao:
             if "con" in dir():
                 con.close()
 
+    # 发表新闻
+    def insert(self, title, editor_id, type_id, content_id, is_top):
+        try:
+            con = pool.get_connection()
+            con.start_transaction()
+            cursor = con.cursor()
+            sql = "INSERT INTO t_news SET " \
+                  "title = %s, editor_id = %s, type_id = %s, content_id = %s, " \
+                  "is_top = %s, create_time = NOW(), state = %s "
+            # print(sql)
+            cursor.execute(sql, (title, editor_id, type_id, content_id, is_top, "待审批"))
+            con.commit()
+        except Exception as e:
+            if "con" in dir():
+                con.rollback()
+            print(e)
+        finally:
+            if "con" in dir():
+                con.close()
+
+    #获取新闻信息
+    def search_news_by_id(self, id):
+        try:
+            con = pool.get_connection()
+            cursor = con.cursor()
+            sql = "SELECT n.title, u.username, t.type, n.content_id, n.is_top, n.create_time " \
+                  "FROM t_news n JOIN t_user u ON n.editor_id = u.id " \
+                  "JOIN t_type t ON n.type_id = t.id " \
+                  "WHERE n.id = %s"
+            # print(sql)
+            cursor.execute(sql, (id,))
+            result = cursor.fetchone()
+            # print(count_page)
+            return result
+        except Exception as e:
+            print(e)
+        finally:
+            if "con" in dir():
+                con.close()
+
+    # 编辑新闻
+    def update_news_by_id(self, id, title, type_id, content_id, is_top):
+        try:
+            con = pool.get_connection()
+            con.start_transaction()
+            cursor = con.cursor()
+            sql = "UPDATE t_news " \
+                  "SET title = %s, type_id = %s, content_id = %s, is_top = %s, update_time = NOW(), state = %s " \
+                  "WHERE id = %s"
+            cursor.execute(sql, (title, type_id, content_id, is_top, "待审批", id))
+            con.commit()
+        except Exception as e:
+            if "con" in dir():
+                con.rollback()
+            print(e)
+        finally:
+            if "con" in dir():
+                con.close()
 # news_dao = NewsDao()
 # news_dao.search_count_page()

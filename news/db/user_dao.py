@@ -1,4 +1,4 @@
-from news.db.mysql_db import pool
+from db.mysql_db import pool
 class UserDao:
     # 验证用户登录
     def login(self, username, password):

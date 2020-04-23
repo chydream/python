@@ -1,4 +1,4 @@
-from news.db.mysql_db import pool
+from db.mysql_db import pool
 class TypeDao:
     # 查询新闻类别
     def search_list(self):

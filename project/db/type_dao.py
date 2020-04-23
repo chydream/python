@@ -1,11 +1,12 @@
 from db.mysql_db import pool
-class RoleDao:
-    # 验证用户登录
+
+class TypeDao:
+    #获取类别列表
     def search_list(self):
         try:
             con = pool.get_connection()
             cursor = con.cursor()
-            sql = "SELECT id,role FROM t_role"
+            sql = "SELECT id,type FROM t_type"
             cursor.execute(sql)
             result = cursor.fetchall()
             return result

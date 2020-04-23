@@ -1,4 +1,4 @@
-from news.db.role_dao import RoleDao
+from db.role_dao import RoleDao
 class RoleService:
     __role_dao = RoleDao()
 

@@ -1,4 +1,4 @@
-from news.db.mysql_db import pool
+from db.mysql_db import pool
 
 class NewsDao:
     #查询待审批新闻列表
@@ -27,7 +27,7 @@ class NewsDao:
             con = pool.get_connection()
             cursor = con.cursor()
             sql = "SELECT CEIL(COUNT(*)/10) FROM t_news WHERE state = %s"
-            print(sql)
+            # print(sql)
             cursor.execute(sql, ("待审批",))
             count_page = cursor.fetchone()[0]
             return count_page
@@ -132,15 +132,54 @@ class NewsDao:
             con = pool.get_connection()
             cursor = con.cursor()
             sql = "SELECT n.title, u.username, t.type, n.content_id, n.is_top, n.create_time " \
-                  "FROM t_news n" \
+                  "FROM t_news n " \
                   "JOIN t_type t ON n.type_id = t.id " \
-                  "JOIN t_user u ON n.editor_id = u.id" \
+                  "JOIN t_user u ON n.editor_id = u.id " \
                   "WHERE n.id = %s"
-            print(sql)
             cursor.execute(sql, (id,))
             result = cursor.fetchone()
             return result
         except Exception as e:
+            print(e)
+        finally:
+            if "con" in dir():
+                con.close()
+
+    # 根据id查找新闻
+    def search_by_id(self, id):
+        try:
+            con = pool.get_connection()
+            cursor = con.cursor()
+            sql = "SELECT n.title,t.type,n.is_top " \
+                  "FROM t_news n " \
+                  "JOIN t_type t ON n.type_id = t.id " \
+                  "WHERE n.id=%s"
+            # print(sql)
+            cursor.execute(sql, (id,))
+            result = cursor.fetchone()
+            return result
+        except Exception as e:
+            print(e)
+        finally:
+            if "con" in dir():
+                con.close()
+
+    # 更改新闻
+    def update(self, id, title, type_id, content_id, is_top):
+        try:
+            con = pool.get_connection()
+            con.start_transaction()
+            cursor = con.cursor()
+            sql = "UPDATE t_news " \
+                  "SET title = %s, type_id = %s, content_id = %s, is_top = %s, " \
+                  "state = %s, update_time = NOW() " \
+                  "WHERE id = %s"
+            # print(sql)
+            cursor.execute(sql, (title, type_id, content_id, is_top, "待审批", id))
+            con.commit()
+        except Exception as e:
+            if "con" in dir():
+                con.rollback()
             print(e)
         finally:
             if "con" in dir():

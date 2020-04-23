@@ -1,4 +1,4 @@
-from news.db.user_dao import UserDao
+from db.user_dao import UserDao
 
 class UserService:
     __user_dao = UserDao()
