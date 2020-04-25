@@ -21,7 +21,7 @@ while True:
     opt = input("\n\t输入操作编号：")
     if opt == "1":
         username = input("\n\t用户名：")
-        password = getpass("\n\t密码：")
+        password = input("\n\t密码：")
         result = __user_service.login(username, password)
         if result:
             role = __user_service.search_user_role(username)
@@ -47,11 +47,14 @@ while True:
                             print(Fore.LIGHTBLUE_EX,"\n\t%d\t%s" % (index + 1, result[index][1]))
                         opt = input("\n\t输入类型编号：")
                         type_id = result[int(opt)-1][0]
-                        content_id = 100
+                        path = input("\n\t输入内容文件路径：")
+                        file = open(path, "r", encoding="utf-8")
+                        content = file.read()
+                        file.close()
                         is_top = input("\n\t输入置顶级别(0-5)：")
                         is_commite = input("\n\t输入Y/N：")
                         if is_commite == "Y" or is_commite == "y":
-                            __news_service.insert(title, user_id, type_id, content_id, is_top)
+                            __news_service.insert(title, user_id, type_id, content, is_top)
                             print("\n\t保存成功(3秒自动返回)")
                             time.sleep(3)
                     elif opt == "2":
@@ -82,6 +85,7 @@ while True:
                                 result = __news_service.search_news_by_id(news_id)
                                 title = result[0]
                                 type = result[2]
+                                content_id = result[3]
                                 is_top = result[4]
                                 print("\n\t原标题：{0}".format(title))
                                 new_title = input("\n\t新标题：")
@@ -91,12 +95,15 @@ while True:
                                     print(Fore.LIGHTBLUE_EX, "\n\t%d\t%s" % (index + 1, result[index][1]))
                                 opt = input("\n\t输入类型编号：")
                                 new_type_id = result[int(opt) - 1][0]
-                                content_id = 100
+                                path = input("\n\t输入编辑内容文件路径：")
+                                file = open(path, "r", encoding="utf-8")
+                                content = file.read()
+                                file.close()
                                 print("\n\t原置顶级别：{0}".format(is_top))
                                 new_is_top = input("\n\t输入置顶级别(0-5)：")
                                 is_commite = input("\n\t输入Y/N：")
                                 if is_commite == "Y" or is_commite == "y":
-                                    __news_service.update_news_by_id(news_id, new_title, new_type_id, content_id, new_is_top)
+                                    __news_service.update_news_by_id(news_id, new_title, new_type_id, content, new_is_top, content_id)
                                     __news_service.delete_cache(news_id)
                                     print("\n\t保存成功(3秒自动返回)")
                                     time.sleep(3)
@@ -178,6 +185,7 @@ while True:
                                     elif opt.isdigit() and int(opt) >= 1 and int(opt) <= 10:
                                         news_id = result[int(opt) - 1][0]
                                         __news_service.delete(news_id)
+                                        __news_service.delete_cache(news_id)
                             else:
                                 print(111)
                                 break

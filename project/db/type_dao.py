@@ -6,7 +6,7 @@ class TypeDao:
         try:
             con = pool.get_connection()
             cursor = con.cursor()
-            sql = "SELECT id,type FROM t_type"
+            sql = "SELECT id,type FROM t_type ORDER BY id"
             cursor.execute(sql)
             result = cursor.fetchall()
             return result
