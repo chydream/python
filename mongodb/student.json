@@ -1,0 +1,4 @@
+{"_id":{"$oid":"5ea144aa3b8255d407d3a33d"},"name":"Scott","sex":"male","age":25.0}
+{"_id":{"$oid":"5ea15c8df2c5c1ca83d6af86"},"name":"李强","sex":"男","age":24.0}
+{"_id":{"$oid":"5ea15c8df2c5c1ca83d6af87"},"name":"刘倩","sex":"女","age":24.0}
+{"_id":{"$oid":"5ea15c8df2c5c1ca83d6af88"},"name":"赵婷婷","sex":"女","age":24.0}

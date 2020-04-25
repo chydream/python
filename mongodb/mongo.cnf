@@ -1,0 +1,3 @@
+dbpath=D:\MongoDB\Server\4.2\data
+logpath=D:\MongoDB\Server\4.2\log\mongod.log
+auth=true
