@@ -1,1 +1,5 @@
 my.ini  mysql配置  client mysql 客户端配置信息   mysqld 数据库配置信息
+重置初始sql命令：
+net stop mysql80
+mysqld --defaults-file="C:\ProgramData\MySQL\MySQL Server 8.0\my.ini"  --init-file="G:\python\python\sql\mysql\temp.txt" --console
+net start mysql80
